@@ -2,13 +2,18 @@ import express from "express";
 import { sequelize } from '../database/db.js';
 import * as dotenv from 'dotenv'
 dotenv.config()
+import cors from 'cors';
 
 import auth from '../routes/auth.js';
-
+import usuario from '../routes/usuario.js';
 import '../models/Usuario.js'
 
 //Crear el servidor de Express
 const app = express();
+
+
+//CORS
+app.use(cors());
 
 //Lectura y parseo del body
 app.use(express.json());
@@ -18,6 +23,8 @@ app.use(express.json());
 app.use('/api/auth/', auth)
 
 //TODO: asistencias: Eventos
+app.use('/api/usuario/', usuario)
+
 
 async function main() {
     try {

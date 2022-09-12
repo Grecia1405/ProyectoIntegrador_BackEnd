@@ -15,12 +15,14 @@ export const validarJWT = (req, res = response, next) => {
 
     try {
 
-        const payload = jwt.verify(
+        const { id, email, name } = jwt.verify(
             token,
             process.env.SECRET_JWT_SEED
         );
 
-        console.log(payload);
+        req.id = id;
+        req.email = email;
+        req.name = name;
 
     } catch (error) {
         return response.status(401).json({

@@ -1,7 +1,6 @@
 import { response } from "express"
 import { Usuario } from "../models/Usuario.js";
 import { generarJsonWebToken } from "../helpers/jwt.js";
-import uuid from 'uuid';
 import bcrypt from 'bcrypt';
 
 export const registrarUsuario = async (req, res = response) => {
@@ -33,7 +32,7 @@ export const registrarUsuario = async (req, res = response) => {
         });
 
         //Generando JWT
-        const token = await generarJsonWebToken(usuario.id, usuario.name);
+        const token = await generarJsonWebToken(usuario.id, usuario.email, usuario.name);
 
         res.status(201).send({
             ok: true,
@@ -74,11 +73,14 @@ export const loginUsuario = async (req, res = response) => {
         }
 
         //Generando JWT
-        const token = await generarJsonWebToken(usuario.id, usuario.name);
+        const token = await generarJsonWebToken(usuario.id, usuario.email, usuario.name);
 
         res.status(200).send({
             ok: true,
             msg: 'Login',
+            name: usuario.name,
+            id: usuario.id,
+            email: usuario.email,
             token
         })
 
@@ -93,7 +95,15 @@ export const loginUsuario = async (req, res = response) => {
 
 export const revalidarToken = async (req, res = response) => {
 
+    const { id, email, name } = req;
+
+    const token = await generarJsonWebToken(id, email, name);
+
     res.status(200).send({
-        msg: 'probando renovar token'
+        ok: true,
+        id,
+        email,
+        name,
+        token
     })
 }
