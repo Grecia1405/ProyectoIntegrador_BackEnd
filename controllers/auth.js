@@ -1,52 +1,10 @@
 import { response } from "express"
-import { Usuario } from "../models/Usuario.js";
 import { generarJsonWebToken } from "../helpers/jwt.js";
 import bcrypt from 'bcrypt';
 
-export const registrarUsuario = async (req, res = response) => {
+/* Modelos */
+import { Usuario } from "../models/Usuario.js";
 
-    const { email, password } = req.body;
-
-    try {
-
-        let usuario = await Usuario.findOne({ where: { email } });
-
-        console.log(usuario);
-
-        if (usuario) {
-            return res.status(400).send({
-                ok: false,
-                msg: `Ya existe una cuenta con ese email.`
-            })
-        }
-        usuario = new Usuario(req.body);
-
-        //Encriptar contraseña
-        const salt = bcrypt.genSaltSync();
-        usuario.password = bcrypt.hashSync(password, salt);
-
-        await Usuario.create({
-            name: usuario.name,
-            password: usuario.password,
-            email: usuario.email
-        });
-
-        //Generando JWT
-        const token = await generarJsonWebToken(usuario.id, usuario.email, usuario.name);
-
-        res.status(201).send({
-            ok: true,
-            usuario,
-            token
-        })
-
-    } catch (error) {
-        res.status(500).send({
-            ok: true,
-            msg: 'Por favor, contacte al administrador'
-        })
-    }
-}
 
 export const loginUsuario = async (req, res = response) => {
 
@@ -73,14 +31,17 @@ export const loginUsuario = async (req, res = response) => {
         }
 
         //Generando JWT
-        const token = await generarJsonWebToken(usuario.id, usuario.email, usuario.name);
+        const token = await generarJsonWebToken(usuario.idUsuario, usuario.email, usuario.nombre, usuario.actividad_usuario, usuario.idArea, usuario.tipo);
 
         res.status(200).send({
             ok: true,
             msg: 'Login',
-            name: usuario.name,
-            id: usuario.id,
+            idUsuario: usuario.idUsuario,
+            nombre: usuario.nombre,
             email: usuario.email,
+            actividad_usuario: usuario.actividad_usuario,
+            idArea: usuario.idArea,
+            tipo: usuario.tipo,
             token
         })
 
@@ -95,15 +56,18 @@ export const loginUsuario = async (req, res = response) => {
 
 export const revalidarToken = async (req, res = response) => {
 
-    const { id, email, name } = req;
+    const { idUsuario, email, nombre, actividad_usuario, idArea, tipo } = req;
 
-    const token = await generarJsonWebToken(id, email, name);
+    const token = await generarJsonWebToken(idUsuario, email, nombre, actividad_usuario, idArea, tipo);
 
     res.status(200).send({
         ok: true,
-        id,
+        idUsuario,
         email,
-        name,
+        nombre,
+        actividad_usuario,
+        idArea,
+        tipo,
         token
     })
 }
