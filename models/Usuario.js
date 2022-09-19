@@ -17,16 +17,18 @@ export const Usuario = sequelize.define('usuario', {
     allowNull: false
   },
   fec_nacimiento: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false
   },
   dni: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true
   },
   password: {
     type: DataTypes.STRING,
@@ -46,7 +48,7 @@ export const Usuario = sequelize.define('usuario', {
     type: DataTypes.CHAR,
     defaultValue: 0,
     allowNull: false
-  },
+  }/* ,
   idArea: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -56,7 +58,7 @@ export const Usuario = sequelize.define('usuario', {
     },
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
-  }
+  } */
 }, {
   freezeTableName: true,
   timestamps: false
