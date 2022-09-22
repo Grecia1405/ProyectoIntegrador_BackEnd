@@ -62,18 +62,13 @@ export const registrarUsuario = async (req, res = response) => {
     try {
         let usuario = await Usuario.findOne(
             {
-                where: {
-                    [Op.or]: [
-                        { email },
-                        { dni }
-                    ]
-                }
+                where: { email }
             });
 
         if (usuario) {
             return res.status(400).send({
                 ok: false,
-                msg: `El email o el DNI ya existen.`
+                msg: `El email ya existe.`
             })
         }
         usuario = new Usuario(req.body);

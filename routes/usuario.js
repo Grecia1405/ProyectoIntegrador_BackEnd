@@ -16,6 +16,7 @@ router.post(
         check('email', 'El email es obligatorio').isEmail(),
         check('password', 'El password debe ser más de 6 caracteres').isLength({ min: 6 }),
         validarCampos
+        /* validarJWT */
     ],
     registrarUsuario,
 )

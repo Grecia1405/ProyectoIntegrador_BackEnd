@@ -6,7 +6,6 @@ export const Usuario = sequelize.define('usuario', {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
-
   },
   nombre: {
     type: DataTypes.STRING,
@@ -21,33 +20,37 @@ export const Usuario = sequelize.define('usuario', {
     allowNull: false
   },
   dni: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true
+    type: DataTypes.CHAR(8),
+    allowNull: false
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false,
-    unique: true
+    allowNull: false
   },
   password: {
     type: DataTypes.STRING,
     allowNull: false
   },
   tipo: {
-    type: DataTypes.CHAR,
+    type: DataTypes.CHAR(1),
     defaultValue: 0,
     allowNull: false
   },
   tarifa_hora: {
-    type: DataTypes.DECIMAL,
+    type: DataTypes.DOUBLE,
     defaultValue: 0,
     allowNull: false
   },
   actividad_usuario: {
-    type: DataTypes.CHAR,
+    type: DataTypes.CHAR(1),
     defaultValue: 0,
     allowNull: false
+  },
+  createdByUser: {
+    type: DataTypes.UUID
+  },
+  updatedByUser: {
+    type: DataTypes.UUID
   }/* ,
   idArea: {
     type: DataTypes.INTEGER,
@@ -61,5 +64,5 @@ export const Usuario = sequelize.define('usuario', {
   } */
 }, {
   freezeTableName: true,
-  timestamps: false
+  timestamps: true
 })

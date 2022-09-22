@@ -7,9 +7,6 @@ import cors from 'cors';
 import auth from '../routes/auth.js';
 import usuario from '../routes/usuario.js';
 
-import { Area } from "../models/Area.js";
-import { Usuario } from "../models/Usuario.js";
-
 import '../database/associations.js'
 
 
