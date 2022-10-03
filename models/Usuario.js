@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes, Sequelize } from 'sequelize'
 import { sequelize } from '../database/db.js'
 
 export const Usuario = sequelize.define('usuario', {
@@ -51,6 +51,16 @@ export const Usuario = sequelize.define('usuario', {
   },
   updatedByUser: {
     type: DataTypes.UUID
+  },
+  createdAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    allowNull: false
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    allowNull: false
   }/* ,
   idArea: {
     type: DataTypes.INTEGER,

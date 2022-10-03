@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { check } from "express-validator";
-import { actualizarUsuario, eliminarUsuario, obtenerUsuario, obtenerUsuarios, registrarUsuario } from "../controllers/usuario.js";
+import { actualizarUsuario, eliminarUsuario, obtenerUsuario, obtenerUsuarios, registrarUsuario, restaurarUsuario } from "../controllers/usuario.js";
 
 import { validarCampos } from "../middlewares/validar-campos.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
@@ -21,7 +21,8 @@ router.post(
     registrarUsuario,
 )
 router.put('/editar/:id', validarJWT, actualizarUsuario);
-router.delete('/eliminar/:id', validarJWT, eliminarUsuario);
+router.put('/eliminar/:id', validarJWT, eliminarUsuario);
+router.put('/restaurar/:id', validarJWT, restaurarUsuario);
 /* router.get('/', validarJWT, obtenerUsuarios); */
 
 export default router;

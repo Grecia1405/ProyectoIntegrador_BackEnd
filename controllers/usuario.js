@@ -57,7 +57,7 @@ export const obtenerUsuarios = async (req, res = response) => {
 
 export const registrarUsuario = async (req, res = response) => {
 
-    const { email, password, dni } = req.body;
+    const { email, password } = req.body;
 
     try {
         let usuario = await Usuario.findOne(
@@ -82,9 +82,6 @@ export const registrarUsuario = async (req, res = response) => {
             password: usuario.password,
         });
 
-        //Generando JWT
-        //const token = await generarJsonWebToken(usuario.idUsuario, usuario.email, usuario.nombre, usuario.actividad_usuario, usuario.idArea, usuario.tipo);
-
         res.status(201).send({
             ok: true,
             usuario
@@ -101,8 +98,24 @@ export const registrarUsuario = async (req, res = response) => {
 
 export const actualizarUsuario = async (req, res = response) => {
 
+    const salt = bcrypt.genSaltSync();
+    req.body.password = bcrypt.hashSync(req.body.password, salt);
+
     try {
-        usuario = await Usuario.update(req.body, {
+        const usuario = await Usuario.update({
+            nombre: req.body.nombre,
+            apellido: req.body.apellido,
+            fec_nacimiento: req.body.fec_nacimiento,
+            dni: req.body.dni,
+            email: req.body.email,
+            password: req.body.password,
+            tipo: req.body.tipo,
+            tarifa_hora: req.body.tarifa_hora,
+            actividad_usuario: req.body.actividad_usuario,
+            createdByUser: req.body.createdByUser,
+            updatedByUser: req.body.updatedByUser,
+            idArea: req.body.idArea,
+        }, {
             where: { idUsuario: req.params.id }
         });
 
@@ -129,6 +142,19 @@ export const eliminarUsuario = async (req, res = response) => {
     res.status(200).json({
         ok: true,
         message: 'Se eliminó el usuario',
+        user
+    })
+}
+
+export const restaurarUsuario = async (req, res = response) => {
+
+    const user = await Usuario.update({ actividad_usuario: 0 }, {
+        where: { idUsuario: req.params.id }
+    });
+
+    res.status(200).json({
+        ok: true,
+        message: 'Se restauró el usuario',
         user
     })
 }
