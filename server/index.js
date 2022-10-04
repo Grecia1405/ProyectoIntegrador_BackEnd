@@ -6,6 +6,7 @@ import cors from 'cors';
 
 import auth from '../routes/auth.js';
 import usuario from '../routes/usuario.js';
+import feriado from '../routes/feriado.js';
 
 import '../database/associations.js'
 
@@ -27,6 +28,8 @@ app.use('/api/auth/', auth)
 //TODO: asistencias: Eventos
 app.use('/api/usuario/', usuario)
 
+// Ruta Feriado
+app.use('/api/feriado/', feriado)
 
 async function main() {
     try {
