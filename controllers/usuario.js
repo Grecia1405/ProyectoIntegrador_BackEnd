@@ -98,8 +98,8 @@ export const registrarUsuario = async (req, res = response) => {
 
 export const actualizarUsuario = async (req, res = response) => {
 
-    const salt = bcrypt.genSaltSync();
-    req.body.password = bcrypt.hashSync(req.body.password, salt);
+    /* const salt = bcrypt.genSaltSync();
+    req.body.password = bcrypt.hashSync(req.body.password, salt); */
 
     try {
         const usuario = await Usuario.update({
@@ -108,7 +108,6 @@ export const actualizarUsuario = async (req, res = response) => {
             fec_nacimiento: req.body.fec_nacimiento,
             dni: req.body.dni,
             email: req.body.email,
-            password: req.body.password,
             tipo: req.body.tipo,
             tarifa_hora: req.body.tarifa_hora,
             actividad_usuario: req.body.actividad_usuario,
