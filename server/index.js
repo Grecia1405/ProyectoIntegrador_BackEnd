@@ -7,6 +7,8 @@ import cors from 'cors';
 import auth from '../routes/auth.js';
 import usuario from '../routes/usuario.js';
 import feriado from '../routes/feriado.js';
+import actividad from '../routes/actividad.js';
+import horarioAsistencia from '../routes/horarioAsistencia.js';
 
 import '../database/associations.js'
 
@@ -25,11 +27,18 @@ app.use(express.json());
 //TODO: auth // crear, login, token
 app.use('/api/auth/', auth)
 
-//TODO: asistencias: Eventos
+// Ruta Usuario
 app.use('/api/usuario/', usuario)
 
 // Ruta Feriado
 app.use('/api/feriado/', feriado)
+
+// Ruta Actividad
+app.use('/api/actividad/', actividad)
+
+// Ruta Horarios
+app.use('/api/horario/', horarioAsistencia)
+
 
 async function main() {
     try {

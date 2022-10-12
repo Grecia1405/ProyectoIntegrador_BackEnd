@@ -7,7 +7,7 @@ import { validarJWT } from "../middlewares/validar-jwt.js";
 
 const router = Router();
 
-router.get('/:id', validarJWT, obtenerUsuario);
+router.get('/:id', obtenerUsuario);
 router.get('/', validarJWT, obtenerUsuarios);
 router.post(
     '/registro',

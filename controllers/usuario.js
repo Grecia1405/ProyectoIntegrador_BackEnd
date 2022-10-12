@@ -45,9 +45,9 @@ export const obtenerUsuarios = async (req, res = response) => {
                 as: 'area'
             }
         ],
+        order: [['nombre', 'ASC']],
         attributes: { exclude: ['idArea'] }
     });
-
 
     res.status(200).json({
         ok: true,
