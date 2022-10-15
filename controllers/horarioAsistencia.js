@@ -1,4 +1,5 @@
 import { response } from "express"
+import { Op } from "sequelize";
 import { Actividad } from "../models/Actividad.js";
 import { Estado } from "../models/Estado.js";
 import { Horario_Asistencia } from "../models/Horario_Asistencia.js";
@@ -18,6 +19,30 @@ export const obtenerHorarioAsistencia = async (req, res = response) => {
                 as: 'estado'
             }
             ],
+        order: [['fechaAsistencia', 'ASC']],
+        attributes: { exclude: ['idActividad', 'idUsuario', 'idEstado'] }
+    });
+    res.status(200).json({
+        horario_asistencia_All
+    })
+}
+
+export const obtenerHorarioAsistenciaByDate = async (req, res = response) => {
+
+    const { startDate, endDate } = req.body;
+
+    let horario_asistencia_All = await Horario_Asistencia.findAll({
+        include:
+            [{
+                model: Actividad,
+                as: 'actividad'
+            },
+            {
+                model: Estado,
+                as: 'estado'
+            }
+            ],
+        where: { "fechaAsistencia": { [Op.between]: [startDate, endDate] } },
         order: [['fechaAsistencia', 'ASC']],
         attributes: { exclude: ['idActividad', 'idUsuario', 'idEstado'] }
     });

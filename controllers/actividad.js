@@ -12,10 +12,30 @@ export const obtenerActividades = async (req, res = response) => {
             model: Usuario,
             as: 'usuario'
         },
-        attributes: { exclude: ['idUsuario'] }
+        /* attributes: { exclude: ['idUsuario'] } */
     });
     res.status(200).json({
         actividades_All
+    })
+}
+
+export const obtenerActividad = async (req, res = response) => {
+
+    const idUsuario = req.params.id;
+
+    console.log(idUsuario);
+
+    let actividadById_All = await Actividad.findAll({
+        where: { idUsuario: idUsuario },
+        include:
+        {
+            model: Usuario,
+            as: 'usuario'
+        },
+        attributes: { exclude: ['idUsuario'] }
+    });
+    res.status(200).json({
+        actividadById_All
     })
 }
 
