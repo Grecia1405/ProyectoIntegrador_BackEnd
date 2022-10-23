@@ -1,4 +1,5 @@
 import { response } from "express"
+import bcrypt from 'bcrypt';
 import { Op } from "sequelize";
 import { Actividad } from "../models/Actividad.js";
 import { Estado } from "../models/Estado.js";
@@ -96,4 +97,108 @@ export const obtenerHorarioAsistenciaById = async (req, res = response) => {
             msg: `El horario no existe.`
         })
     }
+}
+
+export const marcarHorarioAsistencia = async (req, res = response) => {
+
+    const { email, password, hora_ingreso, hora_salida, estado } = req.body;
+
+    try {
+        let usuario = await Usuario.findOne({ where: { email } });
+
+        console.log(usuario);
+
+        if (!usuario) {
+            return res.status(400).send({
+                ok: false,
+                msg: 'El email ingresado no existe.'
+            })
+        }
+
+        //Confirmar los passwords
+        const confirmarPassword = bcrypt.compareSync(password, usuario.password);
+
+        console.log(confirmarPassword);
+
+        if (!confirmarPassword) {
+            return res.status(400).send({
+                ok: false,
+                msg: 'La contraseña es incorrecta.'
+            })
+        }
+
+        let horarioAsistencia = await Horario_Asistencia.update({
+            hora_salida,
+            hora_ingreso,
+            idEstado: estado
+        }, {
+            where: { idHorarioAsistencia: req.params.id }
+        });
+
+        res.status(200).send({
+            ok: true,
+            horarioAsistencia
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            ok: true,
+            msg: 'Por favor, contacte al administrador'
+        })
+    }
+
+}
+
+export const marcarFaltaAsistencia = async (req, res = response) => {
+
+    const { estado } = req.body;
+
+    console.log(estado);
+
+    try {
+        let horarioAsistencia = await Horario_Asistencia.update({
+            idEstado: estado
+        }, {
+            where: { idHorarioAsistencia: req.params.id }
+        });
+
+        res.status(200).send({
+            ok: true,
+            horarioAsistencia
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            ok: true,
+            msg: 'Por favor, contacte al administrador'
+        })
+    }
+
+}
+
+export const marcarAutoSalidaAsistencia = async (req, res = response) => {
+
+    const { hora_salida } = req.body;
+
+    console.log(hora_salida);
+
+    try {
+        let horarioAsistencia = await Horario_Asistencia.update({
+            hora_salida: hora_salida
+        }, {
+            where: { idHorarioAsistencia: req.params.id }
+        });
+
+        res.status(200).send({
+            ok: true,
+            horarioAsistencia
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            ok: true,
+            msg: 'Por favor, contacte al administrador'
+        })
+    }
+
 }

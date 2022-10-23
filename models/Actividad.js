@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes, Sequelize } from 'sequelize'
 import { sequelize } from '../database/db.js'
 
 export const Actividad = sequelize.define('actividad', {
@@ -34,6 +34,14 @@ export const Actividad = sequelize.define('actividad', {
     },
     fin_actividad: {
         type: DataTypes.DATEONLY,
+        allowNull: false
+    },
+    createdByUser: {
+        type: DataTypes.UUID
+    },
+    createdAt: {
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         allowNull: false
     },
     estado: {
