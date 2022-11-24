@@ -9,6 +9,7 @@ import usuario from '../routes/usuario.js';
 import feriado from '../routes/feriado.js';
 import actividad from '../routes/actividad.js';
 import horarioAsistencia from '../routes/horarioAsistencia.js';
+import reporte from '../routes/reporte.js';
 
 import '../database/associations.js'
 
@@ -38,6 +39,9 @@ app.use('/api/actividad/', actividad)
 
 // Ruta Horarios
 app.use('/api/horario/', horarioAsistencia)
+
+// Ruta Reportes
+app.use('/api/reporte/', reporte)
 
 
 async function main() {
