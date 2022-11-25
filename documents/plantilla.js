@@ -1,10 +1,8 @@
 export const plantilla = (listado) => {
 
-    console.log(listado);
     const today = new Date();
 
     let templateHtml = "";
-
     let cabecera = `<html>
 
     <head>
