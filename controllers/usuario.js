@@ -99,9 +99,6 @@ export const registrarUsuario = async (req, res = response) => {
 
 export const actualizarUsuario = async (req, res = response) => {
 
-    /* const salt = bcrypt.genSaltSync();
-    req.body.password = bcrypt.hashSync(req.body.password, salt); */
-
     try {
         const usuario = await Usuario.update({
             nombre: req.body.nombre,
@@ -115,6 +112,32 @@ export const actualizarUsuario = async (req, res = response) => {
             createdByUser: req.body.createdByUser,
             updatedByUser: req.body.updatedByUser,
             idArea: req.body.idArea,
+        }, {
+            where: { idUsuario: req.params.id }
+        });
+
+        res.status(200).json({
+            ok: true,
+            usuario
+        })
+    } catch (error) {
+        res.status(500).json({
+            ok: true,
+            msg: 'Por favor, contacte al administrador.'
+        })
+    }
+
+}
+
+export const actualizarPassword = async (req, res = response) => {
+
+    const salt = bcrypt.genSaltSync();
+    req.body.password = bcrypt.hashSync(req.body.password, salt);
+    const newPassword = req.body.password;
+
+    try {
+        const usuario = await Usuario.update({
+            password: newPassword
         }, {
             where: { idUsuario: req.params.id }
         });
