@@ -1,6 +1,5 @@
 import { response } from "express"
 import { Actividad } from "../models/Actividad.js";
-import { Area } from "../models/Area.js";
 import { Usuario } from "../models/Usuario.js"
 
 
@@ -12,7 +11,6 @@ export const obtenerActividades = async (req, res = response) => {
             model: Usuario,
             as: 'usuario'
         },
-        /* attributes: { exclude: ['idUsuario'] } */
     });
     res.status(200).json({
         actividades_All
@@ -22,8 +20,6 @@ export const obtenerActividades = async (req, res = response) => {
 export const obtenerActividad = async (req, res = response) => {
 
     const idUsuario = req.params.id;
-
-    console.log(idUsuario);
 
     let actividadById_All = await Actividad.findAll({
         where: { idUsuario: idUsuario },
@@ -60,16 +56,11 @@ export const crearActividad = async (req, res = response) => {
 
 export const crearActividades = async (req, res = response) => {
 
-    /* const { name, email, password } = req.body; */
-    /* const actividad = await Actividad.create(req.body); */
-
     const excelData = req.body;
 
     excelData.map(dataItem => {
         Actividad.create(dataItem);
     })
-
-    console.log(excelData);
 
     res.status(200).json({
         ok: true
@@ -78,12 +69,9 @@ export const crearActividades = async (req, res = response) => {
 
 export const editarActividad = async (req, res = response) => {
 
-    /* const { name, email, password } = req.body; */
     const actividad = await Actividad.update(req.body, {
         where: { idActividad: req.params.id }
     });
-
-    console.log(req.body);
 
     res.status(200).json({
         ok: true,
@@ -94,12 +82,9 @@ export const editarActividad = async (req, res = response) => {
 
 export const eliminarActividad = async (req, res = response) => {
 
-    /* const { name, email, password } = req.body; */
     const actividad = await Actividad.destroy({
         where: { idActividad: req.params.id }
     });
-
-    console.log(req.body);
 
     res.status(200).json({
         ok: true,

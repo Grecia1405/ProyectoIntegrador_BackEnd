@@ -1,17 +1,12 @@
 import { response } from "express"
-import bcrypt from 'bcrypt';
-
-import { Op } from "sequelize";
 
 /* Modelos */
 import { Feriado } from "../models/Feriado.js";
 
 export const obtenerFeriado = async (req, res = response) => {
 
-    console.log(req.params.id);
-
     try {
-        let feriado = await Feriado.findOne({           
+        let feriado = await Feriado.findOne({
             where: { idFeriado: req.params.id }
         })
 
@@ -20,7 +15,7 @@ export const obtenerFeriado = async (req, res = response) => {
             feriado
         })
 
-    } catch (error) {estado
+    } catch (error) {
         return res.status(404).send({
             ok: false,
             msg: `El feriado no existe.`
@@ -44,15 +39,12 @@ export const registrarFeriado = async (req, res = response) => {
     const { anio, fecha, descripcion } = req.body;
 
     try {
-        
+
         let feriado = new Feriado(req.body);
 
         await Feriado.create({
             ...req.body
         });
-
-        //Generando JWT
-        //const token = await generarJsonWebToken(usuario.idUsuario, usuario.email, usuario.nombre, usuario.actividad_usuario, usuario.idArea, usuario.tipo);
 
         res.status(201).send({
             ok: true,

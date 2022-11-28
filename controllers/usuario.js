@@ -10,17 +10,9 @@ import { Usuario } from "../models/Usuario.js";
 
 export const obtenerUsuario = async (req, res = response) => {
 
-    console.log(req.params.id);
-
     try {
         let usuario = await Usuario.findOne({
-            /* include: [
-                {
-                    model: Area,
-                    as: 'area'
-                }
-            ],
-            attributes: { exclude: ['idArea'] }, */
+
             where: { idUsuario: req.params.id }
         })
 
